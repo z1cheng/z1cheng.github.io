@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hi, I'm Chen Chen</title>
+<meta name="description" content="Chen Chen — a one-page personal site.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path d='M10 28 L14 6 L30 18 Z' fill='%23E39B4E'/><path d='M54 28 L50 6 L34 18 Z' fill='%23E39B4E'/><circle cx='32' cy='38' r='23' fill='%23E39B4E'/><circle cx='24' cy='34' r='6' fill='%23FFFDFB'/><circle cx='40' cy='34' r='6' fill='%23FFFDFB'/><circle cx='24' cy='34' r='3' fill='%2333241C'/><circle cx='40' cy='34' r='3' fill='%2333241C'/></svg>">
+<style>
+  :root {
+    --bg: #fbf6f0;
+    --fg: #2a211c;
+    --muted: #8d7a6b;
+    --accent: #dd7a34;
+    --glow: rgba(227, 155, 78, .30);
+    --lens-bg: #c9611f;
+    --lens-fg: #fff8f2;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #17130f;
+      --fg: #f4ece4;
+      --muted: #a1907f;
+      --accent: #f0994a;
+      --glow: rgba(227, 155, 78, .20);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html, body { min-height: 100%; }
+
+  body {
+    margin: 0;
+    padding: clamp(28px, 6vw, 72px) clamp(20px, 5vw, 48px);
+    display: grid;
+    place-items: center;
+    background-color: var(--bg);
+    background-image: radial-gradient(58% 42% at 50% 14%, var(--glow), transparent 70%);
+    background-repeat: no-repeat;
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+                 Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  main { width: 100%; max-width: 720px; text-align: center; }
+
+  .cat { width: clamp(180px, 40vw, 236px); height: auto; overflow: visible; }
+
+  /* Both eyes blink together every few seconds. */
+  .eyes {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: blink 6.4s ease-in-out infinite;
+  }
+  @keyframes blink {
+    0%, 90%, 100% { transform: scaleY(1); }
+    93%, 95%      { transform: scaleY(.08); }
+  }
+
+  /* ---- Greeting: a circular lens at the cursor reveals the Chinese line ---- */
+  .greet {
+    margin: clamp(18px, 4vw, 30px) 0 0;
+    padding: 4px 10px 10px;
+    font-size: clamp(1.7rem, 7.2vw, 3.9rem);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -.022em;
+    cursor: default;
+  }
+  /* Registered so the lens radius can animate and drive both title layers at once. */
+  @property --r { syntax: "<length>"; inherits: true; initial-value: 0px; }
+  .greet > div { position: relative; --mx: 50%; --my: 50%; --r: 0px; transition: --r .16s ease; }
+  .greet:hover > div { --r: 1.05em; }
+  .greet .en, .greet .zh { display: block; white-space: nowrap; }
+  .greet .en { position: relative; z-index: 0; }
+  .greet .zh {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Microsoft YaHei",
+                 -apple-system, sans-serif;
+    letter-spacing: .01em;
+    color: var(--lens-fg);
+    clip-path: circle(var(--r) at var(--mx) var(--my));
+  }
+  .greet .zh .dot { color: inherit; opacity: .85; }
+  /* Solid lens body sitting over the English layer: the visible circle and the
+     swapped region share one geometry, so they can never disagree. */
+  .greet > div::before {
+    content: "";
+    position: absolute;
+    left: var(--mx);
+    top: var(--my);
+    width: calc(var(--r) * 2);
+    height: calc(var(--r) * 2);
+    margin: calc(var(--r) * -1) 0 0 calc(var(--r) * -1);
+    background: var(--lens-bg);
+    border-radius: 50%;
+    box-shadow: 0 6px 20px color-mix(in srgb, var(--lens-bg) 38%, transparent);
+    opacity: 0;
+    transition: opacity .16s ease;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .greet:hover > div::before { opacity: 1; }
+  /* Keyboard users get the full swap instead of a cursor-following lens. */
+  .greet:focus-visible { outline: 2px solid var(--accent); outline-offset: 8px; }
+  .greet:focus-visible .zh { clip-path: none; color: var(--fg); }
+  .greet:focus-visible .en { opacity: 0; }
+  .greet .dot { color: var(--accent); }
+
+  /* GitHub-profile-style metadata list: icon + text rows, left-aligned as a centred block. */
+  .profile {
+    display: grid;
+    justify-items: start;
+    gap: 9px;
+    width: max-content;
+    margin: clamp(28px, 6vw, 40px) auto 0;
+    padding: 0;
+    list-style: none;
+    color: var(--muted);
+    font-size: .93rem;
+    line-height: 1.4;
+  }
+  .profile li { display: flex; align-items: center; gap: 10px; }
+  .profile svg {
+    width: 16px;
+    height: 16px;
+    flex: none;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .profile a { color: inherit; text-decoration: none; transition: color .16s ease; }
+  .profile a:hover, .profile a:focus-visible { color: var(--accent); }
+  .profile time { font-variant-numeric: tabular-nums; }
+
+  /* The GitHub mark is a filled silhouette, unlike the stroked line icons. */
+  .profile svg.mark { fill: currentColor; stroke: none; }
+</style>
+</head>
+<body>
+<main>
+  <!-- Orange-and-white tabby, sitting. Iris and pupil track the pointer. -->
+  <svg id="cat" class="cat" viewBox="0 0 260 250" role="img" aria-label="An orange and white cat looking around">
+    <defs>
+      <clipPath id="clipHead"><circle cx="130" cy="96" r="56"/></clipPath>
+      <clipPath id="clipBody"><path d="M92 150 C70 172 62 210 66 240 L194 240 C198 210 190 172 168 150 Z"/></clipPath>
+      <clipPath id="clipEyeL"><ellipse cx="107" cy="92" rx="15.5" ry="16.5"/></clipPath>
+      <clipPath id="clipEyeR"><ellipse cx="153" cy="92" rx="15.5" ry="16.5"/></clipPath>
+    </defs>
+
+    <ellipse cx="130" cy="244" rx="76" ry="8" fill="#33241c" opacity=".08"/>
+
+    <g id="tail">
+      <path d="M188 224 C224 226 240 200 232 172" stroke="#e39b4e" stroke-width="21" stroke-linecap="round" fill="none"/>
+      <path d="M188 224 C224 226 240 200 232 172" stroke="#cf8637" stroke-width="21" stroke-dasharray="7 15" fill="none"/>
+      <animateTransform attributeName="transform" type="rotate"
+        values="-4 188 224; 5 188 224; -4 188 224" dur="3.4s" repeatCount="indefinite"
+        calcMode="spline" keyTimes="0;0.5;1" keySplines=".45 0 .55 1;.45 0 .55 1"/>
+    </g>
+
+    <path d="M92 150 C70 172 62 210 66 240 L194 240 C198 210 190 172 168 150 Z" fill="#e39b4e"/>
+    <g clip-path="url(#clipBody)">
+      <path d="M130 150 C118 150 108 159 106 172 C104 186 109 199 117 206 L143 206 C151 199 156 186 154 172 C152 159 142 150 130 150 Z" fill="#fbf5ee"/>
+      <g stroke="#c0762f" stroke-width="8" stroke-linecap="round" fill="none" opacity=".8">
+        <path d="M74 176 C82 182 84 192 82 202"/>
+        <path d="M68 208 C76 212 78 220 77 228"/>
+        <path d="M186 176 C178 182 176 192 178 202"/>
+        <path d="M192 208 C184 212 182 220 183 228"/>
+      </g>
+    </g>
+
+    <!-- front paws tucked together at the base, legs hidden under the body -->
+    <ellipse cx="110" cy="229" rx="16" ry="11" fill="#fbf5ee"/>
+    <ellipse cx="150" cy="229" rx="16" ry="11" fill="#fbf5ee"/>
+    <g stroke="#e7d7c4" stroke-width="2.4" stroke-linecap="round" fill="none">
+      <path d="M104 223 V235"/>
+      <path d="M116 223 V235"/>
+      <path d="M144 223 V235"/>
+      <path d="M156 223 V235"/>
+    </g>
+
+    <g id="head">
+      <g stroke-linejoin="round">
+        <path d="M88 58 L74 14 L120 42 Z" fill="#e39b4e" stroke="#e39b4e" stroke-width="12"/>
+        <path d="M172 58 L186 14 L140 42 Z" fill="#e39b4e" stroke="#e39b4e" stroke-width="12"/>
+        <path d="M91 51 L81 25 L110 40 Z" fill="#e9b6b0" stroke="#e9b6b0" stroke-width="6"/>
+        <path d="M169 51 L179 25 L150 40 Z" fill="#e9b6b0" stroke="#e9b6b0" stroke-width="6"/>
+      </g>
+
+      <circle cx="130" cy="96" r="56" fill="#e39b4e"/>
+
+      <g clip-path="url(#clipHead)">
+        <!-- white blaze running from the forehead down into the muzzle -->
+        <path d="M130 42 C127 62 123 76 119 90 C115 106 114 118 118 130 L142 130 C146 118 145 106 141 90 C137 76 133 62 130 42 Z" fill="#fbf5ee"/>
+        <g stroke="#cf8637" stroke-width="7" stroke-linecap="round" fill="none" opacity=".75">
+          <path d="M108 40 C112 52 114 60 113 68"/>
+          <path d="M152 40 C148 52 146 60 147 68"/>
+          <path d="M84 84 C94 88 100 91 104 94"/>
+          <path d="M82 100 C92 102 98 104 102 106"/>
+          <path d="M176 84 C166 88 160 91 156 94"/>
+          <path d="M178 100 C168 102 162 104 158 106"/>
+        </g>
+        <ellipse cx="130" cy="120" rx="30" ry="19" fill="#fbf5ee"/>
+      </g>
+
+      <g class="eyes" fill="#fffdfb">
+        <ellipse cx="107" cy="92" rx="15.5" ry="16.5"/>
+        <ellipse cx="153" cy="92" rx="15.5" ry="16.5"/>
+        <g clip-path="url(#clipEyeL)">
+          <g id="pupilL">
+            <ellipse cx="107" cy="92" rx="7.4" ry="10.8" fill="#33241c"/>
+            <circle cx="103" cy="86" r="3.4" fill="#fff" opacity=".95"/>
+            <circle cx="111" cy="98" r="1.7" fill="#fff" opacity=".7"/>
+          </g>
+        </g>
+        <g clip-path="url(#clipEyeR)">
+          <g id="pupilR">
+            <ellipse cx="153" cy="92" rx="7.4" ry="10.8" fill="#33241c"/>
+            <circle cx="149" cy="86" r="3.4" fill="#fff" opacity=".95"/>
+            <circle cx="157" cy="98" r="1.7" fill="#fff" opacity=".7"/>
+          </g>
+        </g>
+      </g>
+
+      <path d="M123 106 H137 L130 114 Z" fill="#e08f8f" stroke="#e08f8f" stroke-width="3.5" stroke-linejoin="round"/>
+      <g stroke="#33241c" stroke-width="3" stroke-linecap="round" fill="none" opacity=".8">
+        <path d="M130 115 C125 123 117 122 114 117"/>
+        <path d="M130 115 C135 123 143 122 146 117"/>
+      </g>
+
+      <g stroke="#33241c" stroke-width="2.2" stroke-linecap="round" fill="none" opacity=".4">
+        <path d="M98 116 L62 110"/>
+        <path d="M98 124 L63 128"/>
+        <path d="M162 116 L198 110"/>
+        <path d="M162 124 L197 128"/>
+      </g>
+    </g>
+  </svg>
+
+  <h1 id="greet" class="greet" lang="en" tabindex="0" aria-label="Hi, I'm Chen Chen">
+    <div>
+      <span class="en">Hi, I'm Chen Chen<span class="dot">.</span></span>
+      <span class="zh" lang="zh-Hans" aria-hidden="true">你好，我是陈辰<span class="dot">。</span></span>
+    </div>
+  </h1>
+
+  <ul class="profile">
+    <li>
+      <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.4" y="3.4" width="13.2" height="9.2" rx="1.6"/><path d="m2 4.6 6 4.4 6-4.4"/></svg>
+      <a href="mailto:imchench@gmail.com">imchench@gmail.com</a>
+    </li>
+    <li>
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 14.4s4.7-4.3 4.7-8A4.7 4.7 0 0 0 3.3 6.4c0 3.7 4.7 8 4.7 8Z"/><circle cx="8" cy="6.4" r="1.8"/></svg>
+      <span>China</span>
+    </li>
+    <li>
+      <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.3"/><path d="M8 4.3V8l2.7 1.9"/></svg>
+      <span><time id="tz-time">--:--</time> <span id="tz-offset"></span></span>
+    </li>
+    <li>
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.4 14.3V2.4h9.2v11.9"/><path d="M1.7 14.3h12.6"/><path d="M6 5.3h1.2M8.8 5.3H10M6 8.2h1.2M8.8 8.2H10M6 11.1h4"/></svg>
+      <a href="https://github.com/alibaba" target="_blank" rel="noopener">alibaba</a>
+    </li>
+    <li>
+      <svg class="mark" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.05-.13-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.13 1.99.06 2.21.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A7.995 7.995 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+      <a href="https://github.com/z1cheng" target="_blank" rel="noopener">z1cheng</a>
+    </li>
+  </ul>
+</main>
+
+<script>
+(function () {
+  var svg = document.getElementById('cat');
+  var head = document.getElementById('head');
+  var VB_W = 260;
+  var MAX = 7.5;
+  // Eye centres and the neck pivot, in viewBox units.
+  var eyes = [
+    { el: document.getElementById('pupilL'), x: 107, y: 92, cx: 0, cy: 0, tx: 0, ty: 0 },
+    { el: document.getElementById('pupilR'), x: 153, y: 92, cx: 0, cy: 0, tx: 0, ty: 0 }
+  ];
+  var pointer = null;
+
+  addEventListener('pointermove', function (e) { pointer = e; }, { passive: true });
+  addEventListener('pointerdown', function (e) { pointer = e; }, { passive: true });
+
+  function frame() {
+    var r = svg.getBoundingClientRect();
+    var s = r.width / VB_W || 1;
+
+    for (var i = 0; i < eyes.length; i++) {
+      var eye = eyes[i];
+      if (pointer) {
+        var dx = (pointer.clientX - (r.left + eye.x * s)) / s;
+        var dy = (pointer.clientY - (r.top + eye.y * s)) / s;
+        var d = Math.hypot(dx, dy) || 1;
+        // Ease so a cursor anywhere on screen still pulls the gaze fully.
+        var reach = MAX * (1 - Math.exp(-d / 150));
+        eye.tx = dx / d * reach;
+        eye.ty = dy / d * reach;
+      } else {
+        eye.tx = 0;
+        eye.ty = 0;
+      }
+      eye.cx += (eye.tx - eye.cx) * .16;
+      eye.cy += (eye.ty - eye.cy) * .16;
+      eye.el.setAttribute('transform', 'translate(' + eye.cx.toFixed(2) + ' ' + eye.cy.toFixed(2) + ')');
+    }
+
+    head.setAttribute('transform', 'rotate(' + ((eyes[0].cx / MAX) * 3).toFixed(2) + ' 130 150)');
+    requestAnimationFrame(frame);
+  }
+
+  frame();
+
+  // Lens: keep the Chinese layer clipped to a circle centred on the cursor.
+  var greet = document.getElementById('greet');
+  var lens = greet.firstElementChild;
+  function moveLens(e) {
+    var r = lens.getBoundingClientRect();
+    lens.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+    // The greeting is one horizontal band: pin the lens to its middle line.
+    lens.style.setProperty('--my', (r.height / 2) + 'px');
+  }
+  greet.addEventListener('pointerenter', moveLens, { passive: true });
+  greet.addEventListener('pointermove', moveLens, { passive: true });
+  greet.addEventListener('pointerdown', moveLens, { passive: true });
+
+  // Local time in the profile owner's timezone, the way GitHub shows it.
+  var TZ = 'Asia/Shanghai';
+  var timeEl = document.getElementById('tz-time');
+  var offsetEl = document.getElementById('tz-offset');
+  var fmtTime = new Intl.DateTimeFormat('en-GB', { timeZone: TZ, hour: '2-digit', minute: '2-digit', hour12: false });
+  var fmtZone = new Intl.DateTimeFormat('en-GB', { timeZone: TZ, timeZoneName: 'shortOffset' });
+
+  function tick() {
+    var now = new Date();
+    var part = fmtZone.formatToParts(now).filter(function (p) { return p.type === 'timeZoneName'; })[0];
+    timeEl.textContent = fmtTime.format(now);
+    offsetEl.textContent = part ? '· ' + part.value.replace('GMT', 'UTC') : '';
+  }
+
+  tick();
+  setInterval(tick, 15000);
+
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) svg.pauseAnimations();
+})();
+</script>
+</body>
+</html>
