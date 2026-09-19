@@ -232,8 +232,8 @@ body { isolation: isolate; }
 .hero-content { display: grid; grid-template-columns: 1.05fr 1fr; align-items: center; gap: 80px; width: 100%; }
 .site-footer { margin-top: 0; padding-bottom: 26px; align-items: center; flex-wrap: wrap; }
 .site-footer>div { margin-left: auto; align-items: center; }
-.terminal-launcher { position: relative; flex: none; display: flex; align-items: center; gap: 7px; min-height: 40px; padding: 8px 12px; font-size: 11px; border: 1px solid var(--accent); border-radius: 9px; background: var(--panel); color: var(--fg); box-shadow: 0 8px 36px #0002, 0 0 25px color-mix(in srgb, var(--accent) 12%, transparent); cursor: pointer; transition: transform .2s; }
-.terminal-launcher:hover { transform: translateY(-3px); }
+.terminal-launcher { position: relative; flex: none; display: flex; align-items: center; gap: 7px; min-height: 40px; padding: 0; font: inherit; border: 0; border-radius: 0; background: none; color: var(--muted); box-shadow: none; cursor: pointer; transition: color .2s; }
+.terminal-launcher:hover { color: var(--accent); }
 .launcher-glyph { color: var(--accent); font: 16px var(--mono); animation: cursor-glow 2s ease-in-out infinite; }
 @keyframes cursor-glow { 50% { opacity: .4; } }
 html.terminal-open { overflow: hidden; }
