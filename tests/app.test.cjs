@@ -247,11 +247,15 @@ test('static assets resolve under a Pages subpath and SVG references are valid',
   assert.equal(ids.length, new Set(ids).size, 'IDs must be unique');
   const resources = [...doc.querySelectorAll('script[src], link[rel="stylesheet"]')];
   assert.equal(resources.length, 2, 'the script and stylesheet must both be parsed');
-  assert.equal(doc.querySelector('link[rel="stylesheet"]').getAttribute('href'), './style.css');
+  assert.match(doc.querySelector('link[rel="stylesheet"]').getAttribute('href'), /^\.\/style\.css\?v=[a-f0-9]{12}$/);
   for (const element of resources) {
     const value = element.getAttribute('src') || element.getAttribute('href');
     assert.ok(value.startsWith('./'));
-    assert.ok(fs.existsSync(path.resolve(root, value)));
+    const [filename, query] = value.split('?');
+    const file = path.resolve(root, filename);
+    assert.ok(fs.existsSync(file));
+    const hash = require('node:crypto').createHash('sha256').update(fs.readFileSync(file)).digest('hex').slice(0, 12);
+    assert.equal(new URLSearchParams(query).get('v'), hash, 'asset URL must match its content');
   }
   for (const [, id] of html.matchAll(/url\(#([^)]*)\)/g)) assert.ok(doc.getElementById(id), `missing SVG definition ${id}`);
   assert.ok(fs.existsSync(path.join(root, '.nojekyll')));
