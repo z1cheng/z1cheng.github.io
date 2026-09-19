@@ -232,7 +232,7 @@ body { isolation: isolate; }
 .hero-content { display: grid; grid-template-columns: 1.05fr 1fr; align-items: center; gap: 80px; width: 100%; }
 .site-footer { margin-top: 0; padding-bottom: 26px; align-items: center; flex-wrap: wrap; }
 .site-footer>div { margin-left: auto; align-items: center; }
-.terminal-launcher { position: relative; flex: none; display: flex; align-items: center; gap: 7px; min-height: 40px; padding: 0; font: inherit; border: 0; border-radius: 0; background: none; color: var(--muted); box-shadow: none; cursor: pointer; transition: color .2s; }
+.terminal-launcher { position: relative; flex: none; display: flex; align-items: center; gap: 7px; min-height: 40px; padding: 0; font: 12px var(--mono); white-space: nowrap; border: 0; border-radius: 0; background: none; color: var(--muted); box-shadow: none; cursor: pointer; transition: color .2s; }
 .terminal-launcher:hover { color: var(--accent); }
 .launcher-glyph { color: var(--accent); font: 16px var(--mono); animation: cursor-glow 2s ease-in-out infinite; }
 @keyframes cursor-glow { 50% { opacity: .4; } }
@@ -263,3 +263,5 @@ dialog::backdrop { background: #080b1470; backdrop-filter: blur(7px); -webkit-ba
 }
 html[data-motion="off"] .launcher-glyph, html[data-motion="off"] dialog.console-section[open] { animation: none; }
 @media (prefers-reduced-motion: reduce) { .launcher-glyph, dialog.console-section[open] { animation: none; } }
+
+@media (max-width: 520px) { .header-actions { gap: 10px; }.terminal-launcher { font-size: 10px; gap: 4px; }.launcher-glyph { font-size: 13px; } }

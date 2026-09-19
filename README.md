@@ -7,7 +7,7 @@ A human, an orange cat named 气气, and a terminal drawer.
 
 ## The page
 
-- A single-page profile and cat, with a compact footer button opening a modal terminal drawer. Desktop slides up from the bottom; phones use a near-full-screen drawer.
+- A single-page profile and cat, with a plain-text header entry opening a modal terminal drawer. Desktop slides up from the bottom; phones use a near-full-screen drawer.
 - Wheel and touch gestures are not intercepted. The terminal scrolls independently; taller mobile content can extend naturally. Reduced-motion settings disable scene effects.
 - A dark grid and amber accents, with light and system themes too.
 - The original orange-and-white SVG cat follows your pointer. Click it, press its button, or gently drag with a mouse to pet it. Head and chin scratches have different responses. On touchscreens, tap to pet; swiping can still scroll the page.
