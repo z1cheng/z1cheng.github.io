@@ -230,10 +230,11 @@ body { isolation: isolate; }
 .page-shell { position: relative; z-index: 1; }
 .hero { display: flex; align-items: center; min-height: calc(100svh - 190px); padding: 65px 0; }
 .hero-content { display: grid; grid-template-columns: 1.05fr 1fr; align-items: center; gap: 80px; width: 100%; }
-.site-footer { margin-top: 0; padding-bottom: 95px; }
-.terminal-launcher { position: fixed; right: max(24px, calc((100vw - 1120px) / 2)); bottom: 26px; z-index: 25; display: flex; align-items: center; gap: 12px; padding: 15px 22px; border: 1px solid var(--accent); border-radius: 14px; background: var(--panel); color: var(--fg); box-shadow: 0 8px 36px #0002, 0 0 25px color-mix(in srgb, var(--accent) 12%, transparent); cursor: pointer; transition: transform .2s; }
+.site-footer { margin-top: 0; padding-bottom: 26px; align-items: center; flex-wrap: wrap; }
+.site-footer>div { margin-left: auto; align-items: center; }
+.terminal-launcher { position: relative; flex: none; display: flex; align-items: center; gap: 7px; min-height: 40px; padding: 8px 12px; font-size: 11px; border: 1px solid var(--accent); border-radius: 9px; background: var(--panel); color: var(--fg); box-shadow: 0 8px 36px #0002, 0 0 25px color-mix(in srgb, var(--accent) 12%, transparent); cursor: pointer; transition: transform .2s; }
 .terminal-launcher:hover { transform: translateY(-3px); }
-.launcher-glyph { color: var(--accent); font: 21px var(--mono); animation: cursor-glow 2s ease-in-out infinite; }
+.launcher-glyph { color: var(--accent); font: 16px var(--mono); animation: cursor-glow 2s ease-in-out infinite; }
 @keyframes cursor-glow { 50% { opacity: .4; } }
 html.terminal-open { overflow: hidden; }
 dialog.console-section { position: fixed; inset: auto 0 0; width: min(1120px, calc(100% - 40px)); max-width: none; max-height: 92dvh; margin: 0 auto; padding: 28px; border: 1px solid var(--line); border-bottom: 0; border-radius: 22px 22px 0 0; background: var(--bg); color: var(--fg); overflow: auto; overscroll-behavior: contain; box-shadow: 0 -20px 100px #0003; }
@@ -249,7 +250,7 @@ dialog::backdrop { background: #080b1470; backdrop-filter: blur(7px); -webkit-ba
 .ambient-orbit { position: absolute; width: 70vw; height: 70vw; right: -28vw; top: 5vh; border: 1px solid color-mix(in srgb, var(--accent) 12%, transparent); border-radius: 50%; }
 .ambient-orbit:before { content: ""; position: absolute; inset: 30px; border: 1px dashed color-mix(in srgb, var(--accent) 9%, transparent); border-radius: 50%; }
 @media (max-width: 1050px) { .hero-content { gap: 42px; } }
-@media (max-width: 760px) { .hero-content { gap: 25px; }.terminal-launcher { right: 18px; bottom: 18px; } }
+@media (max-width: 760px) { .hero-content { gap: 25px; }.terminal-launcher { min-height: 44px; margin-left: auto; }.site-footer>div { margin-left: 0; } }
 @media (max-width: 520px) {
   .hero { padding: 35px 0; }.hero-content { display: flex; flex-direction: column; gap: 32px; }.hero .intro { width: 100%; }
   dialog.console-section { width: 100%; max-height: 94dvh; height: 94dvh; padding: 20px 12px max(16px, env(safe-area-inset-bottom)); }
