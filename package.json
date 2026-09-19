@@ -1,0 +1,13 @@
+{
+  "name": "chen-neko-personal-site",
+  "private": true,
+  "version": "1.0.0",
+  "description": "A static personal page with an interactive orange cat and a modal terminal drawer. No runtime dependencies or build step.",
+  "scripts": {
+    "test": "node --test tests/*.test.cjs",
+    "check": "node --check app.js"
+  },
+  "devDependencies": {
+    "jsdom": "26.1.0"
+  }
+}

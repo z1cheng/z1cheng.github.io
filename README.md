@@ -2,34 +2,62 @@
 
 # z1cheng.github.io
 
-A one-page personal site: <https://z1cheng.github.io>
+Chen Chen's personal corner of the internet: <https://z1cheng.github.io>.
+A human, an orange cat named 气气, and a terminal drawer.
 
-## What's on it
+## The page
 
-- An orange-and-white tabby, drawn entirely in inline SVG. Its pupils follow your cursor, it blinks every few seconds, and its head turns a little with the gaze.
-- A greeting that reads `Hi, I'm Chen Chen.` until you move your cursor over it, at which point a circular lens reveals `你好，我是陈辰。` wherever it passes.
-- A profile strip — email, location, live local time, company, GitHub.
+- A single-page profile and cat, with a floating button opening a modal terminal drawer. Desktop slides up from the bottom; phones use a near-full-screen drawer.
+- Wheel and touch gestures are not intercepted. The terminal scrolls independently; taller mobile content can extend naturally. Reduced-motion settings disable scene effects.
+- A dark grid and amber accents, with light and system themes too.
+- The original orange-and-white SVG cat follows your pointer. Click it, press its button, or gently drag with a mouse to pet it. Head and chin scratches have different responses. On touchscreens, tap to pet; swiping can still scroll the page.
+- The cat gets drowsy after 18 seconds without interaction and sleeps after 30 seconds. Activity wakes an automatic nap. A manual nap stays until you pet it or use `wake` (or its wake button).
+- The interface, cat messages, command help and errors are in Simplified Chinese, with familiar English command names. The greeting shows Chen Chen by default; the lens reveals 陈辰, keyboard focus reveals the full Chinese name, and touch reveals the lens briefly.
+- Visible email, company, location and GitHub details, a live China clock, and a pat counter (saved only on the visitor's device).
+- Animations respect reduced-motion settings and can be paused with `motion off`. Work pauses while the page is hidden.
 
-## How it works
+## Terminal
 
-`index.html` is the whole site. There is no build step, no dependencies, and it loads no external resources: styles, script, and artwork are all inline.
+The terminal is a browser playground, not a system shell. There are no external API calls. Profile commands print clickable links rather than opening new windows automatically.
 
-**The lens** is one CSS custom property driving two things at once. `--r` is registered with `@property` so it can animate from `0` to the lens radius on hover; the same value feeds a `clip-path: circle(...)` that reveals the Chinese layer and a solid disc that covers the English underneath. Both share one geometry, so the visible circle and the swapped region can never disagree. The lens follows the cursor horizontally but is pinned to the vertical centre of the text line — the greeting is a single band, so a free-floating circle ends up below the glyphs.
+| Category | Commands |
+| --- | --- |
+| Explore | `help [command]`, `whoami`, `about`, `projects`, `github`, `email`, `ls`, `cat [file]`, `pwd`, `tree` |
+| Cat | `pet [head\|chin]`, `feed`, `sleep`, `wake`, `status`, `meow`, `sudo pet` |
+| Tools | `date`, `time`, `calc <expression>`, `echo <text>`, `base64 encode\|decode <text>`, `uuid`, `roll [sides]`, `fortune` |
+| Session | `theme [dark\|light\|auto]`, `motion [on\|off]`, `uptime`, `history`, `neofetch`, `banner`, `clear`, `exit` |
 
-**The eyes** are a `requestAnimationFrame` loop. The pointer position is converted into the SVG's viewBox units, eased toward the target, and applied as a translate on each pupil group. Each pupil is clipped to its eye shape, so the iris can never escape the socket.
+Try `calc (2 + 3) * 4`, `base64 encode "你好，猫"`, or `cat dreams.txt`.
 
-## Local preview
+- **Tab:** complete commands and arguments; press again to cycle matches. Empty input or Shift+Tab retains normal keyboard navigation.
+- **↑ / ↓:** recall up to 50 recent commands and return to your draft.
+- **⌘/Ctrl K** or **\`:** open and focus the terminal (the backtick shortcut only applies outside text inputs).
+- **Ctrl C:** cancel the current input when no text is selected. **Esc:** close the drawer.
+- The expand button grows the terminal in place. `exit` closes the drawer and preserves the session.
+- `ls`, `pwd`, `tree` and `cat` browse a small virtual bookshelf, never your filesystem. The calculator uses a small arithmetic parser, not dynamic code evaluation. Output is inserted as text and capped at 160 entries.
 
-```bash
-python3 -m http.server 8000
+## Files and preview
+
+`index.html` contains the markup and original inline SVG, `style.css` the responsive themes and animations, and `app.js` the companion state and command registry. There are no runtime dependencies, external assets or build steps.
+
+```sh
+python3 -m http.server 4173 --bind 127.0.0.1
 ```
 
-Then open <http://localhost:8000>.
+Open <http://127.0.0.1:4173>.
+
+The optional development dependency, jsdom, is only for DOM integration tests:
+
+```sh
+npm ci
+npm run check
+npm test
+```
+
+Tests cover idle and manual sleep, petting, persistence failures, themes, keyboard handling, arithmetic, UTF-8 Base64, command validation and safe output. Check responsive layout and appearance in a real browser after visual changes.
 
 ## Deploying
 
-GitHub Pages, deploying from the root of `master`. `.nojekyll` tells Pages to skip the Jekyll build and serve the files exactly as committed.
-
-## License
+GitHub Pages serves the root of `master`. Keep `index.html`, `style.css` and `app.js` together. `.nojekyll` skips the Jekyll build. Node and `node_modules` are not needed in production.
 
 Released under the [MIT License](LICENSE).
